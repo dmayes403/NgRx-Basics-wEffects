@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+// *** ^^ required for ngrx store-devtools
+import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -31,7 +34,9 @@ import { AuthEffects } from './auth/store/auth.effects';
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthEffects]),
     // *** ^^ required for effects
-    StoreRouterConnectingModule
+    StoreRouterConnectingModule,
+    !environment.production ? StoreDevtoolsModule.instrument() : []
+    // *** ^^ required for ngrx store-devtools - must be added after the StoreModule
   ],
   bootstrap: [AppComponent]
 })
